@@ -7,7 +7,8 @@
 char* getRandomWord(char* password, int length, int level) {
   char ch, word[40];
   FILE *fp;
-  char fileToOpen[14] = "words/words"; 
+  char fileToOpen[9] = "/words";
+  char fullFileName[100]={0};
   int randomFile,m,n;
   int i=0,j=0,lineToBeSelected, currentLine = 0, numberOfWords=0;
   srand(time(NULL));
@@ -15,16 +16,17 @@ char* getRandomWord(char* password, int length, int level) {
     randomFile = rand()%level;
     m = (randomFile)%26;
     n = ((randomFile - m)/26);
-    fileToOpen[11] = 97+n;
-    fileToOpen[12] = 97+m;
-    fileToOpen[13] = '\0';
-    fp = fopen(fileToOpen, "r");
-
+    fileToOpen[6] = 97+n;
+    fileToOpen[7] = 97+m;
+    fileToOpen[8] = '\0';
+    strcpy(fullFileName, DATADIR);
+    strcat(fullFileName, fileToOpen);
+    fp = fopen(fullFileName, "r");
     if(fp == NULL) {
-      perror("Error while opening the file.\n");
+      perror("Error while opening the file.");
       exit(EXIT_FAILURE);
     }
-    if(strcmp(fileToOpen, "words/wordsmv") == 0){
+    if(strcmp(fileToOpen, "/wordsmv") == 0){
       lineToBeSelected = rand() % 333;
     } else {
       lineToBeSelected = rand() % 1000;
