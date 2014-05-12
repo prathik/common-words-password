@@ -56,24 +56,27 @@ char* getRandomWord(char* password, int length, int level) {
 int main(int argc, char **argv) {
   char c,word[200];
   int level = 0;
-
-  while((c = getopt(argc, argv, "l:")) != -1) {
+  int length = 4;
+  while((c = getopt(argc, argv, "l:s:")) != -1) {
     switch(c) {
     case 'l':
+      length = (int)strtol(optarg,NULL,10);
+      break;
+    case 's':
       level = (int)strtol(optarg, NULL, 10);
       break;
     case '?':
-      if(optopt == 'l') {
+      if(optopt == 's') {
 	fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       } else {
-	fprintf(stderr, "Unknown option. Usage pwgen -l <1-334>");
+	fprintf(stderr, "Unknown option. Usage pwgen -s <1-334> [-l]");
       }
     }
   }
   if(level == 0 || level > 334) {
-    fprintf(stderr, "Invalid level. Usage pwgen -l <1-334>");
+    fprintf(stderr, "Invalid level. Usage pwgen -s <1-334> [-l]");
     return 1;
   }
-  printf("Password: %s\n", getRandomWord(word,4,level));
+  printf("Password: %s\n", getRandomWord(word,length,level));
   return 0;
 }
