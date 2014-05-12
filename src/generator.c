@@ -55,10 +55,13 @@ char* getRandomWord(char* password, int length, int level) {
 
 int main(int argc, char **argv) {
   char c,word[200];
-  int level = 0;
+  int level = 0,e = 0;
   int length = 4;
-  while((c = getopt(argc, argv, "l:s:")) != -1) {
+  while((c = getopt(argc, argv, "el:s:")) != -1) {
     switch(c) {
+    case 'e':
+      e = 1;
+      break;
     case 'l':
       length = (int)strtol(optarg,NULL,10);
       break;
@@ -76,6 +79,13 @@ int main(int argc, char **argv) {
   if(level == 0 || level > 334) {
     fprintf(stderr, "Invalid level. Usage pwgen -s <1-334> [-l]");
     return 1;
+  }
+  if(e == 1) {
+    if((level*1000)*length < 100000) {
+      printf("Low entropy. Password could be weak.\n");
+    } else {
+      printf("High entropy. Good password.\n");
+    }
   }
   printf("Password: %s\n", getRandomWord(word,length,level));
   return 0;
