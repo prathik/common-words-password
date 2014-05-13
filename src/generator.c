@@ -26,8 +26,8 @@ char* getRandomWord(char* password, int length, int level) {
       perror("Error while opening the file.");
       exit(EXIT_FAILURE);
     }
-    if(strcmp(fileToOpen, "/wordsmv") == 0){
-      lineToBeSelected = rand() % 333;
+    if(strcmp(fileToOpen, "/wordsjb") == 0){
+      lineToBeSelected = rand() % 846;
     } else {
       lineToBeSelected = rand() % 1000;
     }
@@ -72,12 +72,12 @@ int main(int argc, char **argv) {
       if(optopt == 's') {
 	fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       } else {
-	fprintf(stderr, "Unknown option. Usage pwgen -s <1-334> [-l]");
+	fprintf(stderr, "Unknown option. Usage pwgen -s <1-237> [-l]");
       }
     }
   }
   if(level == 0 || level > 334) {
-    fprintf(stderr, "Invalid level. Usage pwgen -s <1-334> [-l]");
+    fprintf(stderr, "Invalid level. Usage pwgen -s <1-237> [-l]");
     return 1;
   }
   if(e == 1) {
