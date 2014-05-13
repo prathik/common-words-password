@@ -4,6 +4,8 @@
 #include<string.h>
 #include<unistd.h>
 
+int verbose = 0;
+
 char* getRandomWord(char* password, int length, int level) {
   char ch, word[40];
   FILE *fp;
@@ -42,6 +44,10 @@ char* getRandomWord(char* password, int length, int level) {
       word[i] = '\0';
       currentLine++;
     }
+    if(verbose == 1) {
+      printf("Word: %s\n", word);
+    }
+
     i = 0;
     while(word[i] != '\0') {
       password[j++] = word[i++];
@@ -55,37 +61,23 @@ char* getRandomWord(char* password, int length, int level) {
 
 int main(int argc, char **argv) {
   char c,word[200];
-  int level = 0,e = 0;
+  int level = 237;
   int length = 4;
-  while((c = getopt(argc, argv, "el:s:")) != -1) {
+  while((c = getopt(argc, argv, "vl:")) != -1) {
     switch(c) {
-    case 'e':
-      e = 1;
+    case 'v':
+      verbose = 1;
       break;
     case 'l':
       length = (int)strtol(optarg,NULL,10);
       break;
-    case 's':
-      level = (int)strtol(optarg, NULL, 10);
-      break;
     case '?':
-      if(optopt == 's') {
-	fprintf(stderr, "Option -%c requires an argument.\n", optopt);
-      } else {
-	fprintf(stderr, "Unknown option. Usage pwgen -s <1-237> [-l]");
-      }
+	fprintf(stderr, "Unknown option. Usage pwgen [-l]");
     }
   }
-  if(level == 0 || level > 334) {
-    fprintf(stderr, "Invalid level. Usage pwgen -s <1-237> [-l]");
-    return 1;
-  }
-  if(e == 1) {
-    if((level*1000)*length < 100000) {
-      printf("Low entropy. Password could be weak.\n");
-    } else {
-      printf("High entropy. Good password.\n");
-    }
+
+  if(verbose == 1) {
+      printf("Length: %d\n",length);
   }
   printf("Password: %s\n", getRandomWord(word,length,level));
   return 0;
