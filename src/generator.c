@@ -76,7 +76,8 @@ int main(int argc, char **argv) {
       length = (int)strtol(optarg,NULL,10);
       break;
     case '?':
-	fprintf(stderr, "Unknown option. Usage pwgen [-l]");
+	fprintf(stderr, "Unknown option. Usage pwgen [-l #] [-rv]\n");
+	break;
     }
   }
 
