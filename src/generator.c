@@ -60,13 +60,17 @@ char* getRandomWord(char* password, int length, int level) {
 }
 
 int main(int argc, char **argv) {
-  char c,word[200];
+  char c,word[200], prompt;
   int level = 237;
   int length = 4;
-  while((c = getopt(argc, argv, "vl:")) != -1) {
+  int repeat = 0;
+  while((c = getopt(argc, argv, "rvl:")) != -1) {
     switch(c) {
     case 'v':
       verbose = 1;
+      break;
+    case 'r':
+      repeat = 1;
       break;
     case 'l':
       length = (int)strtol(optarg,NULL,10);
@@ -79,6 +83,14 @@ int main(int argc, char **argv) {
   if(verbose == 1) {
       printf("Length: %d\n",length);
   }
-  printf("Password: %s\n", getRandomWord(word,length,level));
+  if(repeat) {
+    do {
+      printf("Password: %s\n", getRandomWord(word,length,level));
+      printf("Regenerate? [Enter for yes, N/n to stop]: ");
+      prompt = getchar();
+    } while(prompt == '\n');
+  } else {
+    printf("Password: %s\n", getRandomWord(word,length,level));
+  }
   return 0;
 }
